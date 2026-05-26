@@ -1,90 +1,47 @@
-# Ali VAR WebView Android Native
+# AliVAR WebView Native Android
 
-Project ini adalah Android native WebView sederhana untuk menjalankan website lokal dari folder assets.
+Project Android native sederhana untuk menjalankan website HTML/CSS/JS lokal melalui Android WebView.
 
-## Versi build yang dipakai
+## Struktur Project
+
+```text
+AliVAR_WebView_Native_FIXED/
+├── .github/workflows/build-apk.yml
+├── app/src/main/assets/index.html
+├── app/src/main/java/com/alisyehan/varwebview/MainActivity.java
+├── app/src/main/AndroidManifest.xml
+├── app/build.gradle
+├── build.gradle
+├── settings.gradle
+├── gradle.properties
+├── GITHUB_WORKFLOW_build-apk.yml
+└── README.md
+```
+
+## Versi Build
 
 - Android Gradle Plugin: 8.5.2
-- Gradle: 8.7, disiapkan lewat GitHub Actions
+- Gradle: 8.7
 - JDK: 17
 - compileSdk: 34
 - targetSdk: 34
 - minSdk: 23
-- Bahasa MainActivity: Java native
+- Bahasa native: Java
 - AndroidX: tidak dipakai
 
-Kombinasi ini dipilih agar stabil, sederhana, dan kompatibel untuk Android Studio maupun GitHub Actions.
+## Cara Menjalankan di Android Studio
 
-## Struktur project
-
-```text
-AliVAR_WebView_Native/
-├── .github/
-│   └── workflows/
-│       └── build-apk.yml
-├── app/
-│   ├── build.gradle
-│   └── src/main/
-│       ├── AndroidManifest.xml
-│       ├── assets/
-│       │   └── index.html
-│       ├── java/com/alisyehan/varwebview/
-│       │   └── MainActivity.java
-│       └── res/values/
-│           └── styles.xml
-├── build.gradle
-├── gradle.properties
-├── settings.gradle
-├── GITHUB_WORKFLOW_build-apk.yml
-├── .gitignore
-└── README.md
-```
-
-## Lokasi file website
-
-File website ada di:
-
-```text
-app/src/main/assets/index.html
-```
-
-WebView membuka file ini:
-
-```text
-file:///android_asset/index.html
-```
-
-Kalau nanti ada file tambahan seperti `style.css`, `app.js`, gambar, atau font, masukkan ke folder:
-
-```text
-app/src/main/assets/
-```
-
-Lalu panggil dari `index.html` memakai path relatif, misalnya:
-
-```html
-<link rel="stylesheet" href="style.css">
-<script src="app.js"></script>
-<img src="images/logo.png">
-```
-
-## Cara menjalankan di Android Studio
-
-1. Extract ZIP project ini.
+1. Extract ZIP.
 2. Buka Android Studio.
 3. Pilih **Open**.
-4. Pilih folder project `AliVAR_WebView_Native`.
+4. Pilih folder project `AliVAR_WebView_Native_FIXED`.
 5. Tunggu Gradle sync selesai.
 6. Klik **Run** untuk menjalankan di emulator atau HP Android.
 
-## Cara upload ke GitHub
-
-Buat repository baru di GitHub. Pastikan branch utama bernama `main`.
-
-Lewat terminal:
+## Cara Upload ke GitHub
 
 ```bash
-cd AliVAR_WebView_Native
+cd AliVAR_WebView_Native_FIXED
 git init
 git branch -M main
 git add .
@@ -93,85 +50,58 @@ git remote add origin https://github.com/USERNAME/NAMA-REPO.git
 git push -u origin main
 ```
 
-Ganti `USERNAME` dan `NAMA-REPO` sesuai repo Anda.
+Ganti `USERNAME` dan `NAMA-REPO` sesuai repository Anda.
 
-## Cara menjalankan GitHub Actions
-
-Workflow asli ada di:
-
-```text
-.github/workflows/build-apk.yml
-```
-
-Salinannya juga disediakan di root:
-
-```text
-GITHUB_WORKFLOW_build-apk.yml
-```
-
-Workflow akan otomatis berjalan saat push ke branch `main`.
-
-Untuk menjalankan manual:
+## Cara Build APK dari GitHub Actions
 
 1. Buka repository GitHub.
 2. Buka tab **Actions**.
-3. Pilih **Build Android APK**.
+3. Pilih workflow **Build Android APK**.
 4. Klik **Run workflow**.
 5. Pilih branch `main`.
-6. Klik tombol **Run workflow**.
+6. Klik **Run workflow**.
 
-## Lokasi APK hasil build
+Workflow juga otomatis berjalan setiap kali ada push ke branch `main`.
 
-Jika build berhasil, APK debug ada di:
+## Lokasi APK Hasil Build
 
-```text
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-Di GitHub Actions, APK akan diupload sebagai artifact bernama:
+Jika build dilakukan di GitHub Actions, APK akan tersedia sebagai artifact bernama:
 
 ```text
 android-debug-apk
 ```
 
-## Cara download artifact APK
+File APK berada di:
 
-1. Buka tab **Actions** di GitHub.
-2. Klik workflow run yang berhasil.
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Cara Download Artifact APK
+
+1. Buka tab **Actions**.
+2. Klik run workflow yang berhasil.
 3. Scroll ke bagian **Artifacts**.
-4. Download artifact bernama `android-debug-apk`.
-5. Extract file ZIP artifact tersebut.
-6. Di dalamnya ada `app-debug.apk`.
+4. Download `android-debug-apk`.
 
-## Jika tab Actions tidak muncul
+## Jika Tab Actions Tidak Muncul
 
-Coba cek ini:
+- Pastikan repository bukan empty repository.
+- Pastikan file workflow ada di `.github/workflows/build-apk.yml`.
+- Pastikan file sudah di-commit dan di-push ke branch `main`.
+- Coba refresh halaman GitHub.
 
-1. Pastikan file workflow benar-benar ada di `.github/workflows/build-apk.yml`.
-2. Pastikan repo sudah di-push ke GitHub, bukan hanya ada di komputer lokal.
-3. Pastikan branch yang dipakai adalah `main`.
-4. Refresh halaman GitHub.
-5. Buka URL repo, lalu tambahkan `/actions` di belakangnya.
-6. Cek Settings > Actions > General, pastikan GitHub Actions tidak dimatikan.
+## Jika Folder .github Tidak Terlihat
 
-## Jika folder .github tidak terlihat
+Folder `.github` adalah hidden folder. Di GitHub web biasanya tetap terlihat setelah diupload. Di komputer lokal, aktifkan tampilan hidden files.
 
-Folder `.github` adalah hidden folder karena diawali titik.
-
-Solusi:
-
-- Di macOS Finder: tekan `Command + Shift + .`
-- Di Windows File Explorer: aktifkan **View > Hidden items**
-- Di VS Code: folder `.github` biasanya langsung terlihat
-- Di terminal: gunakan `ls -la`
-
-Karena folder `.github` kadang tidak terlihat, file workflow juga disalin ke root project sebagai:
+Sebagai cadangan, workflow juga disalin di root project dengan nama:
 
 ```text
 GITHUB_WORKFLOW_build-apk.yml
 ```
 
-Namun GitHub Actions hanya membaca workflow dari lokasi asli:
+Tetapi file yang dipakai GitHub Actions tetap:
 
 ```text
 .github/workflows/build-apk.yml
